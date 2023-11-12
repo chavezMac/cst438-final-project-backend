@@ -7,7 +7,8 @@ VALUES
 INSERT INTO City (city_id, name, state, temperature, max, min, icon)
 VALUES
 (1, 'Salinas', 'CA', 300, 270, 320, '10d'),
-(2, 'Monterey', 'CA', 270, 275, 250, '10d');
+(2, 'Monterey', 'CA', 270, 275, 250, '10d'),
+(3, 'Marina', 'CA', 270, 270, 245, '10d');;
 
 INSERT INTO Added (user_id, city_id, name, temperature, max, min, icon)
 VALUES

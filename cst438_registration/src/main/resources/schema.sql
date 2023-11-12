@@ -1,5 +1,5 @@
 create Table User (
-	user_id int NOT NULL,
+	user_id int NOT NULL AUTO_INCREMENT,
 	alias varchar(50),
 	password varchar(50),
 	role varchar(10),

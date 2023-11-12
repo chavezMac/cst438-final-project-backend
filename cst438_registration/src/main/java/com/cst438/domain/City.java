@@ -12,7 +12,7 @@ public class City {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int city_id;
 	private String name;
-	private int temp;
+	private int temperature;
 	private int max;
 	private int min;
 	private String icon;
@@ -38,11 +38,11 @@ public class City {
 	}
 
 	public int getTemp() {
-		return temp;
+		return temperature;
 	}
 
 	public void setTemp(int temp) {
-		this.temp = temp;
+		this.temperature = temp;
 	}
 
 	public int getMax() {
@@ -72,6 +72,6 @@ public class City {
 	@Override
 	public String toString() {
 		return "City [city_id=" + city_id + ", name=" + name + ", temp=" 
-	+ temp + ", max=" + max + ", min=" + min + ", icon=" + icon;
+	+ temperature + ", max=" + max + ", min=" + min + ", icon=" + icon;
 	}
 }
