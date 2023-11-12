@@ -8,7 +8,7 @@ public interface CityRepository extends CrudRepository <City, Integer> {
 	City findByName(String name);
 	
 	City[] findByNameStartsWith(String name);
-	
+
 	@Query(value="select * from city", nativeQuery = true)
 	City[] getAllCities();
 
