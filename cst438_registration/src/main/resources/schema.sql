@@ -9,7 +9,6 @@ create Table User (
 create Table City (
 	city_id int NOT NULL AUTO_INCREMENT,
 	name varchar(50),
-	state varchar(50),
 	temperature int,
 	max int,
 	min int,

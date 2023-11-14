@@ -61,8 +61,7 @@ public class WeatherController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City not found.");
 		}
 		else {
-			//Add city to added table
-			addedCitiesRepository.insertCity(city.getCity_id(), user_id, city.getName(), city.getTemp(), city.getMax(), city.getMin(), city.getIcon());
+			addedCitiesRepository.insertCity(user_id, city.getCity_id(), city.getName(), city.getTemp(), city.getMax(), city.getMin(), city.getIcon());
 
 		}
 	}

@@ -17,7 +17,6 @@ public interface AddedCitiesRepository extends CrudRepository <City, Integer>{
 	void deleteCity(int user_id, int city_id);
 
 	@Modifying
-	//Update a city in the added table that matches the user_id and city_id, with a new name and pulls the new info from the city table
 	@Query(value="UPDATE added SET name = :name, temperature = :temperature, max = :max_temperature, min = :min_temperature, icon = :icon WHERE user_id = :user_id AND city_id = :city_id", nativeQuery = true)
 	void updateCity(int user_id, int city_id, String name, int temperature, int max_temperature, int min_temperature, String icon);
 
