@@ -1,7 +1,7 @@
 create Table User (
 	user_id int NOT NULL AUTO_INCREMENT,
 	alias varchar(50),
-	password varchar(50),
+	password varchar(150),
 	role varchar(10),
 	PRIMARY KEY (user_id)
 );
