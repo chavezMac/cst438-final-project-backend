@@ -1,6 +1,7 @@
 package com.cst438.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -35,7 +37,7 @@ public class WeatherController {
 	 */
 	@GetMapping("/city/{user_id}")
 	public City[] getAddedCities(@PathVariable("user_id") int user_id) {
-		System.out.println("/city/{user_id} called.");
+		System.out.println("/city/" + user_id + "called.");
 		City[] cities = addedCitiesRepository.getAddedCities(user_id);
 		
 		//Print out the cities
@@ -52,9 +54,9 @@ public class WeatherController {
 	 */
 	@PostMapping("/city/{user_id}")
 	@Transactional
-	public void addCity(@RequestParam("name") String name, @PathVariable("user_id") int user_id) {
+	public void addCity(@RequestBody Map<String, String> requestPayload, String name, @PathVariable("user_id") int user_id) {
 		System.out.println("/city POST called.");
-		City city = cityRepository.findByName(name);
+		City city = cityRepository.findByName(requestPayload.get("name"));
 
 		if (city == null) {
 			// city does not exist in available cities, return error to user
