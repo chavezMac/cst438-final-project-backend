@@ -41,16 +41,18 @@ public class RoleController {
 	}
 	
 	/*
-	 * Get specific user
+	 * Get all users
 	 */
-	@GetMapping("/user/{alias}")
-	public User getUser(@PathVariable("alias") String username) {
-		User user = roleRepository.findByAlias(username);
+	@GetMapping("/users/{username}")
+	public int getIdbyUsername(@PathVariable("username") String username) {
+		System.out.println("/users/{username} called.");
+		User user = roleRepository.findByUsername(username);
 		
 		if(user == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user exists");
 		}
-		return user;
+
+		return user.getUser_id();
 	}
 	
 	/*
