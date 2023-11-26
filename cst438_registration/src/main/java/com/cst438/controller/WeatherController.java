@@ -81,7 +81,7 @@ public class WeatherController {
 		}
 		else {
 			//Delete city from added table
-			addedCitiesRepository.deleteCity(city.getCity_id(), user_id);
+			addedCitiesRepository.deleteCity(user_id, city.getCity_id());
 
 		}
 	}
