@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authenticationEntryPoint(exceptionHandler).and()
 		.addFilterBefore(authenticationFilter, 
 				UsernamePasswordAuthenticationFilter.class);
+		http.headers().frameOptions().disable();
 	}	
 
 	@Bean
