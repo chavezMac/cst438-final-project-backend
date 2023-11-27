@@ -102,6 +102,69 @@ public class WeatherServiceREST implements WeatherService{
 		}
 		
 	}
+	
+	@GetMapping(value="/admin/updateCities")
+	public void updateCityInfo(String name) {
+		City temp = cityRepository.findByName(name);
+		
+		if(temp == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City doesn't exist. Cannot update.");
+		}
+		
+		String url = "https://api.openweathermap.org/data/2.5/weather?q="+ temp +"&units=imperial&appid=" + API_KEY;
+		RestTemplate restTemplate = new RestTemplate();
+
+		String city = restTemplate.getForObject(url, String.class);
+		
+		double temperature = 0.0;
+		double max = 0.0;
+		double min = 0.0;
+		String newIcon = "";
+		
+		StringTokenizer st = new StringTokenizer(city, ",");
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
+
+			if(token.contains("temp")) {
+				temperature = Double.parseDouble(token.substring(token.lastIndexOf(":") + 1));
+			}
+			if(token.contains("temp_min")) {
+				min = Double.parseDouble(token.substring(token.lastIndexOf(":") + 1));
+			}
+			if(token.contains("temp_max")) {
+				max = Double.parseDouble(token.substring(token.lastIndexOf(":") + 1));
+			}
+			if(token.contains("icon")) {
+				newIcon = token.substring(token.lastIndexOf(":") + 1);
+			}
+			
+			
+			
+		}
+		
+ 		int newTemp = (int)Math.round(temperature);
+ 		int newMaxTemp = (int)(max);
+ 		int newMinTemp = (int)min;
+ 		newIcon = newIcon.substring(1,4);
+ 		
+ 		if(temp.getTemp() != newTemp) {
+ 			temp.setTemp(newTemp);
+ 		}
+ 		
+ 		if(temp.getMax() != newMaxTemp) {
+ 			temp.setMax(newMaxTemp);
+ 		}
+ 		
+ 		if(temp.getMin() != newMinTemp) {
+ 			temp.setMin(newMinTemp);
+ 		}
+ 		
+ 		if(!(temp.getIcon().equals(newIcon))) {
+ 			temp.setIcon(newIcon);
+ 		}
+		
+ 		cityRepository.save(temp);
+	}
 
 	private static String asJsonString(final Object obj) {
 		try {

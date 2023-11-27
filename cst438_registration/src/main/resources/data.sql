@@ -8,7 +8,14 @@ INSERT INTO City (city_id, name, temperature, max, min, icon)
 VALUES
 (1, 'Salinas', 300, 270, 320, '10d'),
 (2, 'Monterey',270, 275, 250, '10d'),
-(3, 'Marina', 270, 270, 245, '10d');;
+(3, 'Marina', 270, 270, 245, '10d'),
+(4, 'Watsonville', 300, 270, 320, '10d'),
+(5, 'Santa Cruz', 300, 270, 320, '10d'),
+(6, 'San Jose', 300, 270, 320, '10d'),
+(7, 'Los Angeles', 300, 270, 320, '10d'),
+(8, 'New York', 300, 270, 320, '10d'),
+(9, 'London', 300, 270, 320, '10d'),
+(10, 'Tokyo', 300, 270, 320, '10d');
 
 INSERT INTO Added (user_id, city_id, name, temperature, max, min, icon)
 VALUES
