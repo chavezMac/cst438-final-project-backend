@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 @RestController
 public class WeatherServiceREST implements WeatherService{
-	private final String API_KEY = "d2364f8d00eb4c951c8f9766b50e8572";
+	private final String API_KEY = "";
 	
 	@Autowired
 	CityRepository cityRepository;
@@ -102,6 +104,18 @@ public class WeatherServiceREST implements WeatherService{
 		}
 		
 	}
+	
+//	@DeleteMapping(value="/admin/delete") 
+//	@Transactional
+//	public void deleteCityFromList(String name) {
+//		City temp = cityRepository.findByName(name);
+//		
+//		if(temp == null) {
+//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City doesn't exist. Cannot delete.");
+//		}
+//		
+//		cityRepository.delete(name);
+//	}
 	
 	@GetMapping(value="/admin/updateCities")
 	public void updateCityInfo(String name) {
