@@ -12,7 +12,7 @@ create Table City (
 	temperature int,
 	max int,
 	min int,
-	icon varchar(10),
+	icon varchar(25),
 	PRIMARY KEY (city_id)
 );
 
@@ -23,7 +23,7 @@ create Table Added (
 	temperature int,
 	max int,
 	min int,
-	icon varchar(10),
+	icon varchar(25),
 	PRIMARY KEY (user_id, city_id),
 	FOREIGN KEY (user_id) REFERENCES User(user_id),
 	FOREIGN KEY (city_id) REFERENCES City(city_id)

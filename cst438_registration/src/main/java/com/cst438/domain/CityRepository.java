@@ -18,8 +18,9 @@ public interface CityRepository extends CrudRepository <City, Integer> {
 	@Query(value="INSERT INTO city (city_id, name, temperature, max, min, icon) VALUES (:city_id, :name, :temperature, :max_temperature, :min_temperature, :icon)", nativeQuery = true)
 	void addCity(int city_id, String name, int temperature, int max_temperature, int min_temperature, String icon);
 	
-//	@Modifying
-//	@Query(value = "DELETE FROM city WHERE name = :name", nativeQuery = true)
-//	void deleteCity(@Param("city_id") String city_id);
+	//Delete city by name
+	@Modifying
+	@Query(value="DELETE FROM city WHERE name = :name", nativeQuery = true)
+	void deleteCity(@Param("name") String name);
 
 }
