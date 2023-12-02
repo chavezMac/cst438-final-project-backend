@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 @RestController
 public class WeatherServiceREST implements WeatherService{
-	private final String API_KEY = "9dfcf3d38c22678d0271e9cd75713ef6";
+	private final String API_KEY = "PUT_API_KEY";
 	
 	@Autowired
 	CityRepository cityRepository;
