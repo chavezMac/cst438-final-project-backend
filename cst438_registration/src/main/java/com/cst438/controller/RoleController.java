@@ -28,6 +28,32 @@ public class RoleController {
 	
 	PasswordEncoder encoder = new PasswordEncoder();
 	
+	
+	/*
+	 * Add user
+	 */
+	@PostMapping("/users")
+	@Transactional
+	public int addUser(@RequestBody UserDTO udto) {
+		System.out.println("/users POST called.");
+		User user = roleRepository.findByAlias(udto.alias());
+		
+		if(user != null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists.");
+		}else {
+			user = new User();
+			user.setAlias(udto.alias());
+			
+			String newPassword = encoder.encodedPassword(udto.password());
+			user.setPassword(newPassword);
+			user.setRole(udto.role());
+			
+			roleRepository.save(user);
+		}
+
+		return user.getUser_id();
+	}
+	
 	/*
 	 * Get all users
 	 */
@@ -54,31 +80,6 @@ public class RoleController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user exists");
 		}
 		return user;
-	}
-	
-	/*
-	 * Add user
-	 */
-	@PostMapping("/users")
-	@Transactional
-	public int addUser(@RequestBody UserDTO udto) {
-		System.out.println("/users POST called.");
-		User user = roleRepository.findByAlias(udto.alias());
-		
-		if(user != null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists.");
-		}else {
-			user = new User();
-			user.setAlias(udto.alias());
-			
-			String newPassword = encoder.encodedPassword(udto.password());
-			user.setPassword(newPassword);
-			user.setRole(udto.role());
-			
-			roleRepository.save(user);
-		}
-
-		return user.getUser_id();
 	}
 
 	/*

@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 @RestController
 public class WeatherServiceREST implements WeatherService{
-	private final String API_KEY = "PUT_API_KEY";
+	private final String API_KEY = "9dfcf3d38c22678d0271e9cd75713ef6";
 	
 	@Autowired
 	CityRepository cityRepository;
@@ -209,6 +209,56 @@ public class WeatherServiceREST implements WeatherService{
 		
 	}
 
+
+	@Override
+	public void addCity(String name, int temperature, int max_temperature, int min_temperature, String icon) {
+		// TODO Auto-generated method stub
+		City temp = cityRepository.findByName(name);
+		
+		if(temp != null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City already exists.");
+		}else {
+			temp = new City();
+			temp.setName(name);
+			temp.setTemp(temperature);
+			temp.setMax(max_temperature);
+			temp.setMin(min_temperature);
+			temp.setIcon(icon);
+			
+			cityRepository.save(temp);
+		}
+		
+	}
+	
+	public void updateCity(String name,int temperature, int max_temperature, int min_temperature, String icon) {
+		City cityToChange = cityRepository.findByName(name);
+		
+		if(cityToChange == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City does not exists.");
+		}else {
+			cityToChange.setName(name);
+			cityToChange.setTemp(temperature);
+			cityToChange.setMax(max_temperature);
+			cityToChange.setMin(min_temperature);
+			cityToChange.setIcon(icon);
+			
+			cityRepository.save(cityToChange);
+		}
+	}
+	
+	@DeleteMapping(value="/admin/delete") 
+	@Transactional
+	public void deleteCityFromList(@RequestParam("name") String cityName) {
+		System.out.println("Delete called");
+		City temp = cityRepository.findByName(cityName);
+		
+		if(temp == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City doesn't exist. Cannot delete.");
+		}
+		
+		cityRepository.deleteCity(cityName);
+	}
+	
 	@GetMapping(value="/admin/updateCities")
 	public void updateCityInfo(String name) {
 		System.out.println("Updating " + name);
@@ -271,55 +321,6 @@ public class WeatherServiceREST implements WeatherService{
  		}
 		
  		cityRepository.save(temp);
-	}
-
-	@Override
-	public void addCity(String name, int temperature, int max_temperature, int min_temperature, String icon) {
-		// TODO Auto-generated method stub
-		City temp = cityRepository.findByName(name);
-		
-		if(temp != null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City already exists.");
-		}else {
-			temp = new City();
-			temp.setName(name);
-			temp.setTemp(temperature);
-			temp.setMax(max_temperature);
-			temp.setMin(min_temperature);
-			temp.setIcon(icon);
-			
-			cityRepository.save(temp);
-		}
-		
-	}
-	
-	public void updateCity(String name,int temperature, int max_temperature, int min_temperature, String icon) {
-		City cityToChange = cityRepository.findByName(name);
-		
-		if(cityToChange == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City does not exists.");
-		}else {
-			cityToChange.setName(name);
-			cityToChange.setTemp(temperature);
-			cityToChange.setMax(max_temperature);
-			cityToChange.setMin(min_temperature);
-			cityToChange.setIcon(icon);
-			
-			cityRepository.save(cityToChange);
-		}
-	}
-	
-	@DeleteMapping(value="/admin/delete") 
-	@Transactional
-	public void deleteCityFromList(@RequestParam("name") String cityName) {
-		System.out.println("Delete called");
-		City temp = cityRepository.findByName(cityName);
-		
-		if(temp == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "City doesn't exist. Cannot delete.");
-		}
-		
-		cityRepository.deleteCity(cityName);
 	}
 
 	private static String asJsonString(final Object obj) {
