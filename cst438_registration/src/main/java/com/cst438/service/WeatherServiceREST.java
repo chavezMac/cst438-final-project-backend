@@ -70,6 +70,8 @@ public class WeatherServiceREST implements WeatherService{
 		double max = 0.0;
 		double min = 0.0;
 		String newIcon = "";
+		int newTemp = 0;
+		
 		
 		if(city == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid coordinates!!");
@@ -79,9 +81,12 @@ public class WeatherServiceREST implements WeatherService{
 		StringTokenizer st = new StringTokenizer(city, ",");
 		while (st.hasMoreTokens()) {
 			String token = st.nextToken();
-
-			if(token.contains("temp")) {
+			System.out.println("THis token" + token);
+			if(token.contains("\"main\":{\"temp\"")) {
 				temperature = Double.parseDouble(token.substring(token.lastIndexOf(":") + 1));
+				System.out.println("This temp:" + temperature);
+				newTemp = (int)Math.round(temperature);
+				
 			}
 			if(token.contains("temp_min")) {
 				min = Double.parseDouble(token.substring(token.lastIndexOf(":") + 1));
@@ -97,7 +102,7 @@ public class WeatherServiceREST implements WeatherService{
 			
 		}
 		
- 		int newTemp = (int)Math.round(temperature);
+ 		//newTemp = (int)Math.round(temperature);
  		int newMaxTemp = (int)(max);
  		int newMinTemp = (int)min;
  		newIcon = newIcon.substring(1,4);
@@ -142,6 +147,7 @@ public class WeatherServiceREST implements WeatherService{
 			double max = 0.0;
 			double min = 0.0;
 			String newIcon = "";
+			int newTemp = 0;
 			
 			if(city == null) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid coordinates!!");
@@ -152,8 +158,9 @@ public class WeatherServiceREST implements WeatherService{
 			while (st.hasMoreTokens()) {
 				String token = st.nextToken();
 	
-				if(token.contains("temp")) {
+				if(token.contains("\"main\":{\"temp\"")) {
 					temperature = Double.parseDouble(token.substring(token.lastIndexOf(":") + 1));
+					newTemp = (int)Math.round(temperature);
 				}
 				if(token.contains("temp_min")) {
 					min = Double.parseDouble(token.substring(token.lastIndexOf(":") + 1));
@@ -167,26 +174,10 @@ public class WeatherServiceREST implements WeatherService{
 				
 			}
 			
-	 		int newTemp = (int)Math.round(temperature);
+	 		//int newTemp = (int)Math.round(temperature);
 	 		int newMaxTemp = (int)(max);
 	 		int newMinTemp = (int)min;
 	 		newIcon = newIcon.substring(1,4);
-	 		
-//	 		if(cityToCompare.getTemp() != newTemp) {
-//	 			cityToCompare.setTemp(newTemp);
-//	 		}
-//	 		
-//	 		if(cityToCompare.getMax() != newMaxTemp) {
-//	 			cityToCompare.setMax(newMaxTemp);
-//	 		}
-//	 		
-//	 		if(cityToCompare.getMin() != newMinTemp) {
-//	 			cityToCompare.setMin(newMinTemp);
-//	 		}
-//	 		
-//	 		if(!cityToCompare.getIcon().equals(newIcon)) {
-//	 			cityToCompare.setIcon(newIcon);
-//	 		}
 	 		
 	 		newIcon = newIcon + ".png";
 	 		String weather = "";
