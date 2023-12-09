@@ -43,6 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/login").permitAll()
 		.antMatchers(HttpMethod.GET, "/h2-console/**", "/favicon.ico").permitAll()
 		.antMatchers(HttpMethod.POST, "/h2-console/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/h2-console/**", 
+                "/favicon.ico",
+                "/", "/index.html", "/manifest.json",  "/*.png",
+                 "/static/**", "/check",  "/fail", "/ipaddr")
+                .permitAll()
 		.anyRequest().authenticated().and()
 		.exceptionHandling()
 		.authenticationEntryPoint(exceptionHandler).and()
