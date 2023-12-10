@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.cst438.domain.RoleRepository;
 import com.cst438.domain.User;
 import com.cst438.domain.UserDTO;
+import com.cst438.service.PasswordEncoder;
 
 @RestController
 @CrossOrigin
@@ -24,6 +25,34 @@ public class RoleController {
 	
 	@Autowired
 	RoleRepository roleRepository;
+	
+	PasswordEncoder encoder = new PasswordEncoder();
+	
+	
+	/*
+	 * Add user
+	 */
+	@PostMapping("/users")
+	@Transactional
+	public int addUser(@RequestBody UserDTO udto) {
+		System.out.println("/users POST called.");
+		User user = roleRepository.findByAlias(udto.alias());
+		
+		if(user != null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists.");
+		}else {
+			user = new User();
+			user.setAlias(udto.alias());
+			
+			String newPassword = encoder.encodedPassword(udto.password());
+			user.setPassword(newPassword);
+			user.setRole(udto.role());
+			
+			roleRepository.save(user);
+		}
+
+		return user.getUser_id();
+	}
 	
 	/*
 	 * Get all users
@@ -52,29 +81,6 @@ public class RoleController {
 		}
 		return user;
 	}
-	
-	/*
-	 * Add user
-	 */
-	@PostMapping("/users")
-	@Transactional
-	public int addUser(@RequestBody UserDTO udto) {
-		System.out.println("/users POST called.");
-		User user = roleRepository.findByAlias(udto.alias());
-		
-		if(user != null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists.");
-		}else {
-			user = new User();
-			user.setAlias(udto.alias());
-			user.setPassword(udto.password());
-			user.setRole(udto.role());
-			
-			roleRepository.save(user);
-		}
-
-		return user.getUser_id();
-	}
 
 	/*
 	 * Update user
@@ -88,7 +94,8 @@ public class RoleController {
 		if(user == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exist.");
 		}else {
-			user.setPassword(udto.password());
+			String newPassword = encoder.encodedPassword(udto.password());
+			user.setPassword(newPassword);
 			user.setRole(udto.role());
 			
 			roleRepository.save(user);
